@@ -1,6 +1,7 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include "War.h"
 
@@ -74,6 +75,10 @@ std::string Card::to_string() {
 	return f + " of " + s;
 }
 
-/*int Hand::get_size() {
-	return size(cards);
-}*/
+int Hand::get_size() {
+	return card_stack.size();
+}
+
+void Hand::add_cards(std::vector<Card> cards) {
+	card_stack.insert(card_stack.end(), cards.begin(), cards.end());
+}

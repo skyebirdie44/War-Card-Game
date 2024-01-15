@@ -39,18 +39,18 @@ public:
 	std::string to_string();
 };
 
-/*class Hand {
+class Hand {
 private:
-	std::vector<Card> cards;
+	std::vector<Card> card_stack;
 
 public:
-	//void add_cards(vector<card> cards);
+	void add_cards(std::vector<Card> cards);
 	//void shuffle();
 	//card draw();
 	int get_size();
 };
 
-class Hand::Deck {
+/*class Hand::Deck {
 public:
 	<Deck>();
 };*/
