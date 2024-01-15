@@ -30,11 +30,10 @@ int main(int argc, char const *argv[])
 	//std::cout << deck1.cards_to_string() << "\n";
 	std::cout << hand2.get_size() << "\n";
 	std::cout << hand3.get_size() << "\n";
-	std::cout << hand2.cards_to_string() << "\n";
-	hand2.shuffle();
-	std::cout << hand2.cards_to_string() << "\n";
-	hand2.shuffle();
-	std::cout << hand2.cards_to_string() << "\n";
+
+	Card card1 = hand2.draw_card();
+	std::cout << card1.to_string() << "\n";
+	std::cout << hand2.get_size() << "\n";
 
 	return 0;
 }

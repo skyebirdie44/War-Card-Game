@@ -38,6 +38,7 @@ public:
 	suit_c suit = suit_c::hearts;
 	face_c face = face_c::two;
 
+public:
 	std::string to_string();
 };
 
@@ -46,7 +47,7 @@ public:
 	std::vector<Card> card_stack;
 	void add_cards(std::vector<Card> cards);
 	void shuffle();
-	//card draw();
+	Card draw_card();
 	int get_size();
 	std::string cards_to_string();
 };

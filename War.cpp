@@ -96,8 +96,14 @@ std::string Hand::cards_to_string() {
 }
 
 void Hand::shuffle() {
-	auto rng = std::default_random_engine {};
-	std::shuffle(std::begin(card_stack), std::end(card_stack), rng);
+	srand(time(0));
+	std::random_shuffle(std::begin(card_stack), std::end(card_stack));
+}
+
+Card Hand::draw_card() {
+	Card last = card_stack.back();
+	card_stack.pop_back();
+	return last;
 }
 
 Deck::Deck() {
@@ -112,17 +118,6 @@ Deck::Deck() {
 }
 
 std::vector<Hand> Deck::split_deck() {
-	/*int index;
-	srand(time(0));
-	for(int i = 0; i < div; i++) {
-		index = rand() % card_stack.size();
-		hand1.card_stack.push_back(card_stack[index]);
-		card_stack.erase(card_stack.begin() + index);
-		index = rand() % card_stack.size();
-		hand2.card_stack.push_back(card_stack[index]);
-		card_stack.erase(card_stack.begin() + index);
-	}*/
-
 	shuffle();
 	Hand hand1, hand2;
 	int half = card_stack.size() / 2;
