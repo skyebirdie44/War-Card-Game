@@ -4,6 +4,8 @@
 #include <vector>
 #include <time.h>
 #include <cstdlib>
+#include <algorithm>
+#include <random>
 
 #include "War.h"
 
@@ -93,6 +95,11 @@ std::string Hand::cards_to_string() {
 	return cards_string;
 }
 
+void Hand::shuffle() {
+	auto rng = std::default_random_engine {};
+	std::shuffle(std::begin(card_stack), std::end(card_stack), rng);
+}
+
 Deck::Deck() {
 	Card temp_c;
 	for(int temp_face = Card::face_c::two; temp_face != Card::face_c::Placehold_f; temp_face++) {
@@ -105,10 +112,8 @@ Deck::Deck() {
 }
 
 std::vector<Hand> Deck::split_deck() {
-	Hand hand1, hand2;
-	int index;
+	/*int index;
 	srand(time(0));
-	int div = card_stack.size() / 2;
 	for(int i = 0; i < div; i++) {
 		index = rand() % card_stack.size();
 		hand1.card_stack.push_back(card_stack[index]);
@@ -116,7 +121,15 @@ std::vector<Hand> Deck::split_deck() {
 		index = rand() % card_stack.size();
 		hand2.card_stack.push_back(card_stack[index]);
 		card_stack.erase(card_stack.begin() + index);
-	}
+	}*/
+
+	shuffle();
+	Hand hand1, hand2;
+	int half = card_stack.size() / 2;
+	std::vector<Card> cards1(card_stack.begin(), card_stack.end() - half);
+	std::vector<Card> cards2(card_stack.begin() + half, card_stack.end());
+	hand1.card_stack = cards1;
+	hand2.card_stack = cards2;
 	std::vector<Hand> hands = {hand1, hand2};
 	return hands;
 }

@@ -45,7 +45,7 @@ class Hand {
 public:
 	std::vector<Card> card_stack;
 	void add_cards(std::vector<Card> cards);
-	//void shuffle();
+	void shuffle();
 	//card draw();
 	int get_size();
 	std::string cards_to_string();

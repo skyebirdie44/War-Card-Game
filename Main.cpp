@@ -22,11 +22,19 @@ int main(int argc, char const *argv[])
 	hand2 = players[0];
 	hand3 = players[1];
 
+	//deck1.shuffle();
+
 	std::cout << ace_of_spades.to_string() << "\n";
 	std::cout << hand1.get_size() << "\n";
 	std::cout << deck1.get_size() << "\n";
+	//std::cout << deck1.cards_to_string() << "\n";
 	std::cout << hand2.get_size() << "\n";
 	std::cout << hand3.get_size() << "\n";
+	std::cout << hand2.cards_to_string() << "\n";
+	hand2.shuffle();
+	std::cout << hand2.cards_to_string() << "\n";
+	hand2.shuffle();
+	std::cout << hand2.cards_to_string() << "\n";
 
 	return 0;
 }
