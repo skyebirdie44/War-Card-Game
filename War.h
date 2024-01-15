@@ -11,11 +11,12 @@
 
 class Card {
 public:
-	enum class suit_c : unsigned char {
+	enum suit_c {
 		hearts,
 		diamonds,
 		clubs,
-		spades
+		spades,
+		Placehold_s
 	};
 
 	enum face_c {
@@ -31,7 +32,8 @@ public:
     	jack  = 11,
     	queen = 12,
     	king  = 13,
-    	ace = 14
+    	ace = 14,
+    	Placehold_f
 	};
 	suit_c suit = suit_c::hearts;
 	face_c face = face_c::two;
@@ -40,19 +42,18 @@ public:
 };
 
 class Hand {
-private:
-	std::vector<Card> card_stack;
-
 public:
+	std::vector<Card> card_stack;
 	void add_cards(std::vector<Card> cards);
 	//void shuffle();
 	//card draw();
 	int get_size();
+	std::string cards_to_string();
 };
 
-/*class Hand::Deck {
+class Deck: public Hand {
 public:
-	<Deck>();
-};*/
+	Deck();
+};
 
 #endif

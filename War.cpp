@@ -56,16 +56,16 @@ std::string Card::to_string() {
 
 	switch (suit)
 	{
-	 	case Card::suit_c::hearts:
+	 	case hearts:
 	 		s = "Hearts";
 	 		break;
-	 	case Card::suit_c::diamonds:
+	 	case diamonds:
 	 		s = "Diamonds";
 	 		break;
-	 	case Card::suit_c::clubs:
+	 	case clubs:
 	 		s = "Clubs";
 	 		break;
-	 	case Card::suit_c::spades:
+	 	case spades:
 	 		s = "Spades";
 	 		break;
 	 	default:
@@ -81,4 +81,23 @@ int Hand::get_size() {
 
 void Hand::add_cards(std::vector<Card> cards) {
 	card_stack.insert(card_stack.end(), cards.begin(), cards.end());
+}
+
+std::string Hand::cards_to_string() {
+	std::string cards_string;
+	for (int i=0; i < card_stack.size(); i++) {
+		cards_string = cards_string + card_stack[i].to_string() + "\n";
+	}
+	return cards_string;
+}
+
+Deck::Deck() {
+	Card temp_c;
+	for(int temp_face = Card::face_c::two; temp_face != Card::face_c::Placehold_f; temp_face++) {
+		for (int temp_suit = Card::suit_c::hearts; temp_suit != Card::suit_c::Placehold_s; temp_suit++) {
+			temp_c.face = static_cast<Card::face_c>(temp_face);
+			temp_c.suit = static_cast<Card::suit_c>(temp_suit);
+			card_stack.push_back(temp_c);
+		}
+	}
 }

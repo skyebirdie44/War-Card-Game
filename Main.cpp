@@ -13,11 +13,16 @@ int main(int argc, char const *argv[])
 
 	std::vector<Card> one_card_hand;
 	one_card_hand.push_back(ace_of_spades);
+
 	Hand hand1;
 	hand1.add_cards(one_card_hand);
 
+	Deck deck1;
+
 	std::cout << ace_of_spades.to_string() << "\n";
-	std::cout << hand1.get_size();
+	std::cout << hand1.get_size() << "\n";
+	std::cout << deck1.get_size() << "\n";
+	std::cout << deck1.cards_to_string() << "\n";
 
 	return 0;
 }
