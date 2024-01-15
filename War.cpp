@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <time.h>
+#include <cstdlib>
 
 #include "War.h"
 
@@ -100,4 +102,21 @@ Deck::Deck() {
 			card_stack.push_back(temp_c);
 		}
 	}
+}
+
+std::vector<Hand> Deck::split_deck() {
+	Hand hand1, hand2;
+	int index;
+	srand(time(0));
+	int div = card_stack.size() / 2;
+	for(int i = 0; i < div; i++) {
+		index = rand() % card_stack.size();
+		hand1.card_stack.push_back(card_stack[index]);
+		card_stack.erase(card_stack.begin() + index);
+		index = rand() % card_stack.size();
+		hand2.card_stack.push_back(card_stack[index]);
+		card_stack.erase(card_stack.begin() + index);
+	}
+	std::vector<Hand> hands = {hand1, hand2};
+	return hands;
 }

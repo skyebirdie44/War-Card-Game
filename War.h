@@ -54,6 +54,7 @@ public:
 class Deck: public Hand {
 public:
 	Deck();
+	std::vector<Hand> split_deck();
 };
 
 #endif
