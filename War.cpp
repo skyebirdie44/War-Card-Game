@@ -89,6 +89,10 @@ Card::Card(face_c face_in, suit_c suit_in) {
 	suit = suit_in;
 }
 
+int Card::get_face() {
+	return static_cast<Card::face_c>(face);
+}
+
 std::vector<Card> Hand::get_cards() {
 	return card_stack;
 }
@@ -124,6 +128,10 @@ Card Hand::draw_card() {
 	return last;
 }
 
+void Hand::clear_cards() {
+	card_stack.clear();
+}
+
 Deck::Deck() {
 	//Card temp_c;
 	for(int temp_face = Card::face_c::two; temp_face != Card::face_c::Placehold_f; temp_face++) {
@@ -149,7 +157,7 @@ std::vector<Hand> Deck::split_deck() {
 	return hands;
 }
 
-/*void prompt() {
+void prompt() {
 	std::cout << "Hello and welcome to the executable version of the card game War."
 	"This game uses a standard 52 card deck with no jokers.\n"
 	"\nHOW TO PLAY:\n"
@@ -165,6 +173,15 @@ std::vector<Hand> Deck::split_deck() {
 	std::cout << "Would you like to play? Type Y for yes, N for no, Q for quit.\n";
 }
 
-int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck) {
+/*int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc) {
 
+	computer_card = computer_deck.draw_card();
+	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+	player_card = player_deck.draw_card();
+	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+
+	if (computer_card.get_face() > player_card.get_face()) {
+		//logic
+	}
+	return 0;
 }*/

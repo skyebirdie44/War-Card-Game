@@ -7,7 +7,7 @@
 
 int main(int argc, char const *argv[])
 {
-
+/*
 	Card ace_spades(Card::face_c::ace, Card::suit_c::spades);
 	std::cout << ace_spades.to_string();
 
@@ -19,19 +19,19 @@ int main(int argc, char const *argv[])
 	Deck d1;
 	std::vector<Hand> deck_split = d1.split_deck();
 	h1 = deck_split[0];
-	std::cout << h1.cards_to_string();
+	std::cout << h1.cards_to_string();*/
 
 
-	//prompt();
+	prompt();
 
-	/*Deck playing_cards;
+	Deck playing_cards;
 	std::vector<Hand> players;
 	players = playing_cards.split_deck();
 	Hand computer_deck = players[0];
 	Hand player_deck = players[1];
 
 	Card computer_card, player_card;
-	std::vector<Card> computer_hand, player_hand, computer_discard, player_discard;
+	Hand computer_hand, player_hand, computer_discard, player_discard;
 
 	char user;
 
@@ -44,16 +44,25 @@ int main(int argc, char const *argv[])
 
 	while(user != 'n' || user != 'N' || user != 'q' || user != 'Q') {
 		if (computer_deck.get_size() == 0) {
-			std::cout << "Congratulations, you won the card game of War!\n";
+			if (computer_discard.get_size() == 0) {
+				std::cout << "Congratulations, you won the card game of War!\n";
+			} else {
+				computer_discard.shuffle();
+				computer_deck.add_cards(computer_discard.get_cards());
+				computer_discard.clear_cards();
+			}
 		} else if (player_deck.get_size() == 0) {
-			std::cout << "Oh no, you lost the card game of War!\n";
+			if (player_discard.get_size() == 0) {
+				std::cout << "Oh no, you lost the card game of War!\n";
+			} else {
+				player_discard.shuffle();
+				player_deck.add_cards(player_discard.get_cards());
+				player_discard.clear_cards();
+			}
 		} else {
-			computer_card = computer_deck.draw_card();
-			std::cout << "The computer drew a " << computer_card.to_string() << "\n";
-			player_card = player_deck.draw_card();
-			std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+			//war
 		}
-	}*/
+	}
 
 
 	return 0;

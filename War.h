@@ -40,6 +40,7 @@ public:
 
 	Card();
 	Card(face_c face_in, suit_c suit_in);
+	int get_face();
 	std::string to_string();
 };
 
@@ -54,6 +55,7 @@ public:
 	Card draw_card();
 	int get_size();
 	std::string cards_to_string();
+	void clear_cards();
 };
 
 class Deck: public Hand {
@@ -62,8 +64,8 @@ public:
 	std::vector<Hand> split_deck();
 };
 
-/*void prompt();
+void prompt();
 
-int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck);*/
+int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc);
 
 #endif
