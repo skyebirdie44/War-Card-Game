@@ -8,9 +8,23 @@
 int main(int argc, char const *argv[])
 {
 
-	prompt();
+	Card ace_spades(Card::face_c::ace, Card::suit_c::spades);
+	std::cout << ace_spades.to_string();
 
-	Deck playing_cards;
+	Hand h1, h2;
+	//std::vector<Card> card_v = {ace_spades};
+	//h1.add_a_card(ace_spades);
+	//std::cout << h1.cards_to_string();
+
+	Deck d1;
+	std::vector<Hand> deck_split = d1.split_deck();
+	h1 = deck_split[0];
+	std::cout << h1.cards_to_string();
+
+
+	//prompt();
+
+	/*Deck playing_cards;
 	std::vector<Hand> players;
 	players = playing_cards.split_deck();
 	Hand computer_deck = players[0];
@@ -39,7 +53,7 @@ int main(int argc, char const *argv[])
 			player_card = player_deck.draw_card();
 			std::cout << "The computer drew a " << computer_card.to_string() << "\n";
 		}
-	}
+	}*/
 
 
 	return 0;

@@ -76,11 +76,29 @@ std::string Card::to_string() {
 	 		s = "NaN";
 	}
 
-	return f + " of " + s;
+	return f + " of " + s + "\n";
+}
+
+Card::Card() {
+	face = two;
+	suit = hearts;
+}
+
+Card::Card(face_c face_in, suit_c suit_in) {
+	face = face_in;
+	suit = suit_in;
+}
+
+std::vector<Card> Hand::get_cards() {
+	return card_stack;
 }
 
 int Hand::get_size() {
 	return card_stack.size();
+}
+
+void Hand::add_a_card(Card a_card) {
+	card_stack.push_back(a_card);
 }
 
 void Hand::add_cards(std::vector<Card> cards) {
@@ -90,7 +108,7 @@ void Hand::add_cards(std::vector<Card> cards) {
 std::string Hand::cards_to_string() {
 	std::string cards_string;
 	for (int i=0; i < card_stack.size(); i++) {
-		cards_string = cards_string + card_stack[i].to_string() + "\n";
+		cards_string = cards_string + card_stack[i].to_string();
 	}
 	return cards_string;
 }
@@ -107,12 +125,13 @@ Card Hand::draw_card() {
 }
 
 Deck::Deck() {
-	Card temp_c;
+	//Card temp_c;
 	for(int temp_face = Card::face_c::two; temp_face != Card::face_c::Placehold_f; temp_face++) {
 		for (int temp_suit = Card::suit_c::hearts; temp_suit != Card::suit_c::Placehold_s; temp_suit++) {
-			temp_c.face = static_cast<Card::face_c>(temp_face);
-			temp_c.suit = static_cast<Card::suit_c>(temp_suit);
-			card_stack.push_back(temp_c);
+			/*temp_c.face = static_cast<Card::face_c>(temp_face);
+			temp_c.suit = static_cast<Card::suit_c>(temp_suit);*/
+			Card temp_c(static_cast<Card::face_c>(temp_face), static_cast<Card::suit_c>(temp_suit));
+			add_a_card(temp_c);
 		}
 	}
 }
@@ -120,16 +139,17 @@ Deck::Deck() {
 std::vector<Hand> Deck::split_deck() {
 	shuffle();
 	Hand hand1, hand2;
-	int half = card_stack.size() / 2;
-	std::vector<Card> cards1(card_stack.begin(), card_stack.end() - half);
-	std::vector<Card> cards2(card_stack.begin() + half, card_stack.end());
-	hand1.card_stack = cards1;
-	hand2.card_stack = cards2;
+	std::vector<Card> temp_c = get_cards();
+	int half = get_size() / 2;
+	std::vector<Card> cards1(temp_c.begin(), temp_c.end() - half);
+	std::vector<Card> cards2(temp_c.begin() + half, temp_c.end());
+	hand1.add_cards(cards1);
+	hand2.add_cards(cards2);
 	std::vector<Hand> hands = {hand1, hand2};
 	return hands;
 }
 
-void prompt() {
+/*void prompt() {
 	std::cout << "Hello and welcome to the executable version of the card game War."
 	"This game uses a standard 52 card deck with no jokers.\n"
 	"\nHOW TO PLAY:\n"
@@ -144,3 +164,7 @@ void prompt() {
 
 	std::cout << "Would you like to play? Type Y for yes, N for no, Q for quit.\n";
 }
+
+int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck) {
+
+}*/

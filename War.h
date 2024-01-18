@@ -38,13 +38,17 @@ public:
 	suit_c suit = suit_c::hearts;
 	face_c face = face_c::two;
 
-public:
+	Card();
+	Card(face_c face_in, suit_c suit_in);
 	std::string to_string();
 };
 
 class Hand {
-public:
+private:
 	std::vector<Card> card_stack;
+public:
+	std::vector<Card> get_cards();
+	void add_a_card(Card a_card);
 	void add_cards(std::vector<Card> cards);
 	void shuffle();
 	Card draw_card();
@@ -58,8 +62,8 @@ public:
 	std::vector<Hand> split_deck();
 };
 
-void prompt();
+/*void prompt();
 
-int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck);
+int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck);*/
 
 #endif
