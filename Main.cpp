@@ -60,7 +60,7 @@ int main(int argc, char const *argv[])
 				player_discard.clear_cards();
 			}
 		} else {
-			//war
+			war(&computer_deck, &player_deck, &computer_discard, &player_discard);
 		}
 	}
 

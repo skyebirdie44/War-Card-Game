@@ -66,6 +66,6 @@ public:
 
 void prompt();
 
-int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc);
+int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc);
 
 #endif

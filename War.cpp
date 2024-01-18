@@ -76,7 +76,7 @@ std::string Card::to_string() {
 	 		s = "NaN";
 	}
 
-	return f + " of " + s + "\n";
+	return f + " of " + s;
 }
 
 Card::Card() {
@@ -112,7 +112,7 @@ void Hand::add_cards(std::vector<Card> cards) {
 std::string Hand::cards_to_string() {
 	std::string cards_string;
 	for (int i=0; i < card_stack.size(); i++) {
-		cards_string = cards_string + card_stack[i].to_string();
+		cards_string = cards_string + card_stack[i].to_string() + "\n";
 	}
 	return cards_string;
 }
@@ -136,8 +136,6 @@ Deck::Deck() {
 	//Card temp_c;
 	for(int temp_face = Card::face_c::two; temp_face != Card::face_c::Placehold_f; temp_face++) {
 		for (int temp_suit = Card::suit_c::hearts; temp_suit != Card::suit_c::Placehold_s; temp_suit++) {
-			/*temp_c.face = static_cast<Card::face_c>(temp_face);
-			temp_c.suit = static_cast<Card::suit_c>(temp_suit);*/
 			Card temp_c(static_cast<Card::face_c>(temp_face), static_cast<Card::suit_c>(temp_suit));
 			add_a_card(temp_c);
 		}
@@ -173,15 +171,68 @@ void prompt() {
 	std::cout << "Would you like to play? Type Y for yes, N for no, Q for quit.\n";
 }
 
-/*int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc) {
-
-	computer_card = computer_deck.draw_card();
+int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc) {
+	int w;
+	Card computer_card = computer_deck.draw_card();
 	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
-	player_card = player_deck.draw_card();
+	Card player_card = player_deck.draw_card();
 	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+	std::vector<Card> temp_comp, temp_play;
 
 	if (computer_card.get_face() > player_card.get_face()) {
-		//logic
+		std::cout << "The computer's " << computer_card.to_string() << " beats your " << player_card.to_string() << "\n";
+		comp_disc.add_a_card(computer_card);
+		comp_disc.add_a_card(player_card);
+		w = 0;
+	} else if (computer_card.get_face() < player_card.get_face()) {
+		std::cout << "Your  " << computer_card.to_string() << " beats the computer's " << player_card.to_string() << "\n";
+		player_disc.add_a_card(computer_card);
+		player_disc.add_a_card(player_card);
+		w = 1;
+	} else { //player cars == computer card
+		std::cout << "Your " << player_card.to_string() << " matches the computer's " << computer_card.to_string() << "\n";
+		std::cout << "Prepare for War!\n";
+		for (int i = 0; i < 3 && i < computer_deck.get_size(); i++) {
+			if (i < 3 && computer_deck.get_size() - i == 1) {
+				if (comp_disc.get_size() > 0) {
+					computer_deck.add_cards(comp_disc.get_cards());
+					computer_deck.shuffle();
+					comp_disc.clear_cards();
+					temp_comp.push_back(computer_deck.draw_card());
+					std::cout << "The computer draws a card\n";
+				} else { //computer has no more cards to play
+					i = 3; //exit loop
+					std::cout << "The computer has ran out of cards!\n";
+				}
+			} else {
+				temp_comp.push_back(computer_deck.draw_card());
+			}
+		}
+		for (int i = 0; i < 3 && i < player_deck.get_size(); i++) {
+			if (i < 3 && player_deck.get_size() - i == 1) {
+				if (player_disc.get_size() > 0) {
+					player_deck.add_cards(player_disc.get_cards());
+					player_deck.shuffle();
+					player_disc.clear_cards();
+					temp_play.push_back(player_deck.draw_card());
+					std::cout << "You draw a card\n";
+				} else { //player has no more cards to play
+					i = 3; //exit loop
+					std::cout << "You have run out of cards!\n";
+				}
+			} else {
+				temp_play.push_back(player_deck.draw_card());
+			}
+		}
+		//need to figure out recursive calls with refs
+		w = war(&computer_deck, &player_deck, &comp_disc, &player_disc)
 	}
-	return 0;
-}*/
+	if (w == 0) {//computer wins
+		computer_deck.add_cards(temp_comp);
+		computer_deck.add_cards(temp_play);
+	} else { //w == 1 so player wins
+		player_deck.add_cards(temp_comp);
+		player_deck.add_cards(temp_play);
+	}
+	return w;
+}
