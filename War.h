@@ -58,4 +58,8 @@ public:
 	std::vector<Hand> split_deck();
 };
 
+void prompt();
+
+int war(Card comp_card, Card play_card, Hand &computer_deck, Hand &player_deck);
+
 #endif

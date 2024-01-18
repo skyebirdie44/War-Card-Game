@@ -7,33 +7,40 @@
 
 int main(int argc, char const *argv[])
 {
-	Card ace_of_spades;
-	ace_of_spades.suit = Card::suit_c::spades;
-	ace_of_spades.face = Card::face_c::ace;
 
-	std::vector<Card> one_card_hand;
-	one_card_hand.push_back(ace_of_spades);
+	prompt();
 
-	Hand hand1, hand2, hand3;
-	hand1.add_cards(one_card_hand);
+	Deck playing_cards;
+	std::vector<Hand> players;
+	players = playing_cards.split_deck();
+	Hand computer_deck = players[0];
+	Hand player_deck = players[1];
 
-	Deck deck1;
-	std::vector<Hand> players = deck1.split_deck();
-	hand2 = players[0];
-	hand3 = players[1];
+	Card computer_card, player_card;
+	std::vector<Card> computer_hand, player_hand, computer_discard, player_discard;
 
-	//deck1.shuffle();
+	char user;
 
-	std::cout << ace_of_spades.to_string() << "\n";
-	std::cout << hand1.get_size() << "\n";
-	std::cout << deck1.get_size() << "\n";
-	//std::cout << deck1.cards_to_string() << "\n";
-	std::cout << hand2.get_size() << "\n";
-	std::cout << hand3.get_size() << "\n";
+	std::cin >> user;
 
-	Card card1 = hand2.draw_card();
-	std::cout << card1.to_string() << "\n";
-	std::cout << hand2.get_size() << "\n";
+	if (user != 'n' || user != 'N' || user != 'q' || user != 'Q') {
+		std::cout << "Type D to draw a card.\n";
+		std::cin >> user;
+	}
+
+	while(user != 'n' || user != 'N' || user != 'q' || user != 'Q') {
+		if (computer_deck.get_size() == 0) {
+			std::cout << "Congratulations, you won the card game of War!\n";
+		} else if (player_deck.get_size() == 0) {
+			std::cout << "Oh no, you lost the card game of War!\n";
+		} else {
+			computer_card = computer_deck.draw_card();
+			std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+			player_card = player_deck.draw_card();
+			std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+		}
+	}
+
 
 	return 0;
 }

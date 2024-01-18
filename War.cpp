@@ -128,3 +128,19 @@ std::vector<Hand> Deck::split_deck() {
 	std::vector<Hand> hands = {hand1, hand2};
 	return hands;
 }
+
+void prompt() {
+	std::cout << "Hello and welcome to the executable version of the card game War."
+	"This game uses a standard 52 card deck with no jokers.\n"
+	"\nHOW TO PLAY:\n"
+	"The 52 card deck is shuffled and split evenly into 2 hands, one hand for each player.\n"
+	"For each round, each player draws the top card from their hand and lays the card face up.\n" 
+	"Whichever card ranks highest (2 is lowest, ace is highest) wins that round.\n"
+	"If both cards are the same, 3 more cards are drawn face down and the fourth card is drawn face up to again compare rank.\n"
+	"\nThis continues until there is a winner. The winner takes all the cards used in that round into their discard pile.\n"
+	"Rounds continue until either player runs out of cards in their hand.\n"
+	"Then that user shuffles their discard pile and uses that as their new hand to continue playing.\n"
+	"/nThe player left with all the cards in the original deck wins the game.\n";
+
+	std::cout << "Would you like to play? Type Y for yes, N for no, Q for quit.\n";
+}
