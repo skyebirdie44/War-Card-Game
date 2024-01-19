@@ -133,7 +133,7 @@ void Hand::clear_cards() {
 }
 
 Deck::Deck() {
-	//Card temp_c;
+	//the card class enum values are used like integers to index and initialize a full deck
 	for(int temp_face = Card::face_c::two; temp_face != Card::face_c::Placehold_f; temp_face++) {
 		for (int temp_suit = Card::suit_c::hearts; temp_suit != Card::suit_c::Placehold_s; temp_suit++) {
 			Card temp_c(static_cast<Card::face_c>(temp_face), static_cast<Card::suit_c>(temp_suit));
@@ -166,12 +166,14 @@ void prompt() {
 	"\nThis continues until there is a winner. The winner takes all the cards used in that round into their discard pile.\n"
 	"Rounds continue until either player runs out of cards in their hand.\n"
 	"Then that user shuffles their discard pile and uses that as their new hand to continue playing.\n"
-	"/nThe player left with all the cards in the original deck wins the game.\n";
+	"\nThe player left with all the cards in the original deck wins the game.\n";
 
-	std::cout << "Would you like to play? Type Y for yes, N for no, Q for quit.\n";
+	std::cout << "\nWould you like to play? Type Y for yes, N for no, Q for quit.\n";
 }
 
 int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc) {
+
+	//first we draw a card from each deck
 	int w;
 	Card computer_card = computer_deck.draw_card();
 	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
@@ -179,18 +181,19 @@ int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_di
 	std::cout << "You drew a " << player_card.to_string() << "\n";
 	std::vector<Card> temp_comp, temp_play;
 
-	if (computer_card.get_face() > player_card.get_face()) {
+	if (computer_card.get_face() > player_card.get_face()) { //computer won
 		std::cout << "The computer's " << computer_card.to_string() << " beats your " << player_card.to_string() << "\n";
 		w = 0;
-	} else if (computer_card.get_face() < player_card.get_face()) {
+	} else if (computer_card.get_face() < player_card.get_face()) { //player won
 		std::cout << "Your  " << player_card.to_string() << " beats the computer's " << computer_card.to_string() << "\n";
 		w = 1;
 	} else { //player card == computer card
 		std::cout << "Your " << player_card.to_string() << " matches the computer's " << computer_card.to_string() << "\n";
 		std::cout << "\nPrepare for War!\n";
-		for (int i = 0; i < 3 && i < computer_deck.get_size(); i++) {
-			if (i < 3 && computer_deck.get_size() - i == 1) {
-				if (comp_disc.get_size() > 0) {
+
+		for (int i = 0; i < 3 && i < computer_deck.get_size(); i++) { //3 cards are placed "face down" from computer deck
+			if (i < 3 && computer_deck.get_size() - i == 1) { //computer deck has less than 3 cards
+				if (comp_disc.get_size() > 0) { //if theres some cards left in the discard pile, add to deck
 					computer_deck.add_cards(comp_disc.get_cards());
 					computer_deck.shuffle();
 					comp_disc.clear_cards();
@@ -205,9 +208,10 @@ int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_di
 				std::cout << "The computer draws a card\n";
 			}
 		}
-		for (int i = 0; i < 3 && i < player_deck.get_size(); i++) {
-			if (i < 3 && player_deck.get_size() - i == 1) {
-				if (player_disc.get_size() > 0) {
+
+		for (int i = 0; i < 3 && i < player_deck.get_size(); i++) { //3 cards "face down" from player deck
+			if (i < 3 && player_deck.get_size() - i == 1) { //player deck has less than 3 cards
+				if (player_disc.get_size() > 0) { //if theres some cards left in discard pile, add to deck
 					player_deck.add_cards(player_disc.get_cards());
 					player_deck.shuffle();
 					player_disc.clear_cards();
@@ -222,14 +226,15 @@ int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_di
 				std::cout << "You draw a card\n";
 			}
 		}
+		//recursive call to determine winner of the next cards placed face up
 		w = war(computer_deck, player_deck, comp_disc, player_disc);
 	}
-	if (w == 0) {//computer wins
+	if (w == 0) {//computer wins & takes all the cards played
 		comp_disc.add_a_card(computer_card);
 		comp_disc.add_a_card(player_card);
 		comp_disc.add_cards(temp_comp);
 		comp_disc.add_cards(temp_play);
-	} else { //w == 1 so player wins
+	} else { //w == 1 so player wins & takes all the cards played
 		player_disc.add_a_card(computer_card);
 		player_disc.add_a_card(player_card);
 		player_disc.add_cards(temp_comp);

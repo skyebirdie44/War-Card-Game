@@ -12,8 +12,9 @@
 	The Card class is comprised of the two attributes of a playing card: a suit and a face value.
 	In the card game War, an ace is the highest rank. With this class, you are able to create a card
 	as well as retrieve a numeric representation of the face value of the card. This class definition
-	will also return the type of card in string value, i.e. if the card's suit is spades andthe face
-	value is ace, a user can retrieve the string "Ace of Spades"*/
+	will also return the type of card in string value, i.e. if the card's suit is spades and the face
+	value is ace, a user can retrieve the string "Ace of Spades"
+*/
 class Card {
 public:
 	enum suit_c {
@@ -49,6 +50,12 @@ public:
 	std::string to_string();
 };
 
+/*** Class Hand ***
+ 	This class is representative of a group of cards. The one attribute of the class is a vector of Card class
+ 	objects. This class allows a user to get the vector of Cards in the class, add a single Card or a vector
+ 	of Cards to the class, shuffle the attribute vector of Cards, get the size of the group of Cards, get a
+ 	string list of the cards in the vector attribute, or clear all the cards in the group of Cards.
+*/
 class Hand {
 private:
 	std::vector<Card> card_stack;
@@ -63,14 +70,27 @@ public:
 	void clear_cards();
 };
 
+/*** Class Deck ***
+	The Deck class is a child class of the Hand parent class. The Deck class has all the same attributes and
+	functions as the Hand class, except the constructor initializes a full 52 card deck as the Card vector
+	attribute and has an additional function to split the deck into two even hands.
+*/
 class Deck: public Hand {
 public:
 	Deck();
 	std::vector<Hand> split_deck();
 };
 
+/*** Function prompt ***
+	The prompt function prints the game rules to the command line and asks the user if they would like to play.
+*/
 void prompt();
 
+/*** Function war ***
+	The war function is a recursive function that serves as the main part of the card game. This function takes
+	in the computer and player decks and discard piles as inputs and returns an int value designating the winner
+	of that round (0 for computer, 1 for player).
+*/
 int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc);
 
 #endif
