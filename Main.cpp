@@ -25,13 +25,16 @@ int main(int argc, char const *argv[])
 	prompt();
 
 	Deck playing_cards;
+	//std::cout << playing_cards.get_size() << "\n";
 	std::vector<Hand> players;
 	players = playing_cards.split_deck();
 	Hand computer_deck = players[0];
 	Hand player_deck = players[1];
+	//std::cout << computer_deck.get_size() << "\n";
+	//std::cout << player_deck.get_size() << "\n";
 
 	Card computer_card, player_card;
-	Hand computer_hand, player_hand, computer_discard, player_discard;
+	Hand computer_discard, player_discard;
 
 	char user;
 
@@ -41,6 +44,10 @@ int main(int argc, char const *argv[])
 		std::cout << "Type D to draw a card.\n";
 		std::cin >> user;
 	}
+	Hand &cdeck_r = computer_deck;
+	Hand &pdeck_r = player_deck;
+	Hand &cdisc_r = computer_discard;
+	Hand &pdisc_r = player_discard;
 
 	while(user != 'n' || user != 'N' || user != 'q' || user != 'Q') {
 		if (computer_deck.get_size() == 0) {
@@ -60,8 +67,12 @@ int main(int argc, char const *argv[])
 				player_discard.clear_cards();
 			}
 		} else {
-			war(&computer_deck, &player_deck, &computer_discard, &player_discard);
+			war(cdeck_r, pdeck_r, cdisc_r, pdisc_r);
 		}
+		std::cout << "The computer has " << computer_deck.get_size() + computer_discard.get_size() << " cards\n";
+		std::cout << "You have " << player_deck.get_size() + player_discard.get_size() << " cards\n";
+		std::cout << "\nType D to draw a card.\n";
+		std::cin >> user;
 	}
 
 

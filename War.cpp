@@ -176,22 +176,18 @@ int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_di
 	Card computer_card = computer_deck.draw_card();
 	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
 	Card player_card = player_deck.draw_card();
-	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+	std::cout << "You drew a " << player_card.to_string() << "\n";
 	std::vector<Card> temp_comp, temp_play;
 
 	if (computer_card.get_face() > player_card.get_face()) {
 		std::cout << "The computer's " << computer_card.to_string() << " beats your " << player_card.to_string() << "\n";
-		comp_disc.add_a_card(computer_card);
-		comp_disc.add_a_card(player_card);
 		w = 0;
 	} else if (computer_card.get_face() < player_card.get_face()) {
-		std::cout << "Your  " << computer_card.to_string() << " beats the computer's " << player_card.to_string() << "\n";
-		player_disc.add_a_card(computer_card);
-		player_disc.add_a_card(player_card);
+		std::cout << "Your  " << player_card.to_string() << " beats the computer's " << computer_card.to_string() << "\n";
 		w = 1;
-	} else { //player cars == computer card
+	} else { //player card == computer card
 		std::cout << "Your " << player_card.to_string() << " matches the computer's " << computer_card.to_string() << "\n";
-		std::cout << "Prepare for War!\n";
+		std::cout << "\nPrepare for War!\n";
 		for (int i = 0; i < 3 && i < computer_deck.get_size(); i++) {
 			if (i < 3 && computer_deck.get_size() - i == 1) {
 				if (comp_disc.get_size() > 0) {
@@ -206,6 +202,7 @@ int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_di
 				}
 			} else {
 				temp_comp.push_back(computer_deck.draw_card());
+				std::cout << "The computer draws a card\n";
 			}
 		}
 		for (int i = 0; i < 3 && i < player_deck.get_size(); i++) {
@@ -222,17 +219,21 @@ int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_di
 				}
 			} else {
 				temp_play.push_back(player_deck.draw_card());
+				std::cout << "You draw a card\n";
 			}
 		}
-		//need to figure out recursive calls with refs
-		w = war(&computer_deck, &player_deck, &comp_disc, &player_disc)
+		w = war(computer_deck, player_deck, comp_disc, player_disc);
 	}
 	if (w == 0) {//computer wins
-		computer_deck.add_cards(temp_comp);
-		computer_deck.add_cards(temp_play);
+		comp_disc.add_a_card(computer_card);
+		comp_disc.add_a_card(player_card);
+		comp_disc.add_cards(temp_comp);
+		comp_disc.add_cards(temp_play);
 	} else { //w == 1 so player wins
-		player_deck.add_cards(temp_comp);
-		player_deck.add_cards(temp_play);
+		player_disc.add_a_card(computer_card);
+		player_disc.add_a_card(player_card);
+		player_disc.add_cards(temp_comp);
+		player_disc.add_cards(temp_play);
 	}
 	return w;
 }

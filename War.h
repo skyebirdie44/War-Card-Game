@@ -8,7 +8,12 @@
 
 //using std::vector;
 
-
+/*** Class Card ***
+	The Card class is comprised of the two attributes of a playing card: a suit and a face value.
+	In the card game War, an ace is the highest rank. With this class, you are able to create a card
+	as well as retrieve a numeric representation of the face value of the card. This class definition
+	will also return the type of card in string value, i.e. if the card's suit is spades andthe face
+	value is ace, a user can retrieve the string "Ace of Spades"*/
 class Card {
 public:
 	enum suit_c {
