@@ -142,17 +142,13 @@ Deck::Deck() {
 	}
 }
 
-std::vector<Hand> Deck::split_deck() {
+Hand Deck::split_deck() {
 	shuffle();
-	Hand hand1, hand2;
-	std::vector<Card> temp_c = get_cards();
-	int half = get_size() / 2;
-	std::vector<Card> cards1(temp_c.begin(), temp_c.end() - half);
-	std::vector<Card> cards2(temp_c.begin() + half, temp_c.end());
-	hand1.add_cards(cards1);
-	hand2.add_cards(cards2);
-	std::vector<Hand> hands = {hand1, hand2};
-	return hands;
+	Hand hand2;
+	for (int i = 0; i < 26; i++){
+		hand2.add_a_card(draw_card());
+	}
+	return hand2;
 }
 
 void prompt() {
@@ -172,73 +168,83 @@ void prompt() {
 }
 
 int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc) {
-
+	Hand table;
 	//first we draw a card from each deck
 	int w;
 	Card computer_card = computer_deck.draw_card();
-	std::cout << "The computer drew a " << computer_card.to_string() << "\n";
+	if (computer_card.to_string() == "NaN of NaN") {
+		std::cout << computer_deck.cards_to_string();
+	}
+	std::cout << "\nThe computer drew a " << computer_card.to_string() << "\n";
+	
 	Card player_card = player_deck.draw_card();
+	if (player_card.to_string() == "NaN of NaN") {
+			std::cout << player_deck.cards_to_string();
+	}
 	std::cout << "You drew a " << player_card.to_string() << "\n";
-	std::vector<Card> temp_comp, temp_play;
+
 
 	if (computer_card.get_face() > player_card.get_face()) { //computer won
 		std::cout << "The computer's " << computer_card.to_string() << " beats your " << player_card.to_string() << "\n";
 		w = 0;
 	} else if (computer_card.get_face() < player_card.get_face()) { //player won
-		std::cout << "Your  " << player_card.to_string() << " beats the computer's " << computer_card.to_string() << "\n";
+		std::cout << "Your " << player_card.to_string() << " beats the computer's " << computer_card.to_string() << "\n";
 		w = 1;
 	} else { //player card == computer card
 		std::cout << "Your " << player_card.to_string() << " matches the computer's " << computer_card.to_string() << "\n";
 		std::cout << "\nPrepare for War!\n";
 
-		for (int i = 0; i < 3 && i < computer_deck.get_size(); i++) { //3 cards are placed "face down" from computer deck
-			if (i < 3 && computer_deck.get_size() - i == 1) { //computer deck has less than 3 cards
-				if (comp_disc.get_size() > 0) { //if theres some cards left in the discard pile, add to deck
-					computer_deck.add_cards(comp_disc.get_cards());
-					computer_deck.shuffle();
-					comp_disc.clear_cards();
-					temp_comp.push_back(computer_deck.draw_card());
-					std::cout << "The computer draws a card\n";
-				} else { //computer has no more cards to play
-					i = 3; //exit loop
-					std::cout << "The computer has ran out of cards!\n";
-				}
-			} else {
-				temp_comp.push_back(computer_deck.draw_card());
-				std::cout << "The computer draws a card\n";
-			}
+		std::string s = "The computer draws a card\n";
+		std::string i = "The computer has no more cards to play!\n";
+		int c = war_draw(table, computer_deck, comp_disc, s, i);
+
+		s = "You draw a card\n";
+		i = "You have no more cards to play!\n";
+		int p = war_draw(table, player_deck, player_disc, s, i);
+
+		if (c == 0) {
+			std::cout << "noccards\n";
+			computer_deck.add_a_card(computer_card);
 		}
 
-		for (int i = 0; i < 3 && i < player_deck.get_size(); i++) { //3 cards "face down" from player deck
-			if (i < 3 && player_deck.get_size() - i == 1) { //player deck has less than 3 cards
-				if (player_disc.get_size() > 0) { //if theres some cards left in discard pile, add to deck
-					player_deck.add_cards(player_disc.get_cards());
-					player_deck.shuffle();
-					player_disc.clear_cards();
-					temp_play.push_back(player_deck.draw_card());
-					std::cout << "You draw a card\n";
-				} else { //player has no more cards to play
-					i = 3; //exit loop
-					std::cout << "You have run out of cards!\n";
-				}
-			} else {
-				temp_play.push_back(player_deck.draw_card());
-				std::cout << "You draw a card\n";
-			}
+		if (p == 0) {
+			std::cout << "nopcards\n";
+			player_deck.add_a_card(player_card);
 		}
-		//recursive call to determine winner of the next cards placed face up
+
 		w = war(computer_deck, player_deck, comp_disc, player_disc);
 	}
+
+	table.add_a_card(computer_card);
+	table.add_a_card(player_card);
+
 	if (w == 0) {//computer wins & takes all the cards played
-		comp_disc.add_a_card(computer_card);
-		comp_disc.add_a_card(player_card);
-		comp_disc.add_cards(temp_comp);
-		comp_disc.add_cards(temp_play);
+		comp_disc.add_cards(table.get_cards());
 	} else { //w == 1 so player wins & takes all the cards played
-		player_disc.add_a_card(computer_card);
-		player_disc.add_a_card(player_card);
-		player_disc.add_cards(temp_comp);
-		player_disc.add_cards(temp_play);
+		player_disc.add_cards(table.get_cards());
 	}
+
 	return w;
+
+}
+
+int war_draw(Hand &tbl, Hand &plyr, Hand &plyr_d, std::string card_draw, std::string no_cards) {
+	int n = 0;
+	for(int i = 0; (i < 3) && ((plyr.get_size() + plyr_d.get_size()) > 1); i++) {
+		if (plyr.get_size() == 0) {
+			plyr.add_cards(plyr_d.get_cards());
+			plyr_d.clear_cards();
+		}
+		Card c = plyr.draw_card();
+		if (c.to_string() == "NaN of NaN") {
+			std::cout << plyr.cards_to_string();
+		}
+		std::cout << card_draw;
+		tbl.add_a_card(c);
+		n = i + 1;
+	}
+	if (n < 3) {
+		std::cout << no_cards;
+	}
+	return n;
 }

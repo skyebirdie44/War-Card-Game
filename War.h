@@ -78,7 +78,7 @@ public:
 class Deck: public Hand {
 public:
 	Deck();
-	std::vector<Hand> split_deck();
+	Hand split_deck();
 };
 
 /*** Function prompt ***
@@ -92,5 +92,11 @@ void prompt();
 	of that round (0 for computer, 1 for player).
 */
 int war(Hand &computer_deck, Hand &player_deck, Hand &comp_disc, Hand &player_disc);
+
+/*** Function war_draw ***
+	The war_draw function is used to draw the 3 "face down" cards during the war game when the player
+	and computer draw the same card. This has logic for different card amount scenarios.
+*/
+int war_draw(Hand &tbl, Hand &plyr, Hand &plyr_d, std::string line, std::string no_cards);
 
 #endif
